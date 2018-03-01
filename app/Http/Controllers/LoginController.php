@@ -13,10 +13,10 @@ class LoginController extends Controller
 	{
 		if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 			$users = User::where('email',$request->email)->first();
-			if ($users->active == 1) {
-				dd('aktif');exit;
+			if ($users->active) {
+				dd($users);exit;
 			}
-			dd('tidak aktif');exit;
+			dd($users);exit;
 		}
 	}
 

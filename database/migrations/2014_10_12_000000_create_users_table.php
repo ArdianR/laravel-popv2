@@ -56,6 +56,14 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+        DB::table('users')->insert(array(
+            'name' => 'fianr5750',
+            'email' => 'fianr5750@mail.com',
+            'password' => bcrypt('721355'),
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()')
+        ));
+
     }
 
     /**
