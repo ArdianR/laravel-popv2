@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 Use App\DetailUsers;
+use Illuminate\Database\Eloquent\Model;
 
 class HomeController extends Controller
 {
@@ -26,8 +27,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::where('id',1)->get();
-        dd($users);exit();
+        $Users = User::with('detailusers')->where('id',Auth::id())->get();
+
+        dd($Users);exit;
         return view('home');
     }
 }

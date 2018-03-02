@@ -44,22 +44,58 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('detail_users', function (Blueprint $table) {
+        Schema::create('group_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('users_id')->unsigned()->default(0);
-            $table->foreign('users_id')->references('id')->on('users');
-            $table->integer('groups_id')->unsigned()->default(0);
-            $table->foreign('groups_id')->references('id')->on('groups');
-            $table->integer('areas_id')->unsigned()->default(0);
-            $table->foreign('areas_id')->references('id')->on('areas');
-            $table->tinyInteger('active')->default(0);
+            $table->integer('id_users')->unsigned()->default(0);
+            $table->foreign('id_users')->references('id')->on('users');
+            $table->integer('id_groups')->unsigned()->default(0);
+            $table->foreign('id_groups')->references('id')->on('groups');
             $table->timestamps();
         });
+
+        Schema::create('area_users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('id_users')->unsigned()->default(0);
+            $table->foreign('id_users')->references('id')->on('users');
+            $table->integer('id_areas')->unsigned()->default(0);
+            $table->foreign('id_areas')->references('id')->on('areas');
+            $table->timestamps();
+        });
+
+        DB::table('groups')->insert(array(
+            'name' => 'admin',
+            'active' => '1',
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()')
+        ));
+
+        DB::table('areas')->insert(array(
+            'name' => 'all',
+            'alias' => 'all',
+            'active' => '1',
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()')
+        ));
 
         DB::table('users')->insert(array(
             'name' => 'fianr5750',
             'email' => 'fianr5750@mail.com',
+            'active' => '1',
             'password' => bcrypt('721355'),
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()')
+        ));
+
+        DB::table('group_users')->insert(array(
+            'id_users' => '1',
+            'id_groups' => '1',
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()')
+        ));
+
+        DB::table('area_users')->insert(array(
+            'id_users' => '1',
+            'id_areas' => '1',
             'created_at' => DB::raw('now()'),
             'updated_at' => DB::raw('now()')
         ));
@@ -76,6 +112,7 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('groups');
         Schema::dropIfExists('areas');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('detail_users');
+        Schema::dropIfExists('group_users');
+        Schema::dropIfExists('area_users');
     }
 }
